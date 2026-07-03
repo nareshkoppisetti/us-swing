@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+!.env.example
+
+# Database & runtime data
+backend/data/usa_swing.db
+backend/data/scheduler.db
+backend/data/cache/
+backend/data/market_data/
+backend/logs/
+backend/ml/artifacts/
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+!frontend/.env.local.example
+
+# ML
+*.pkl
+*.joblib
+*.h5
+mlruns/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,53 @@
+# Web Framework
+fastapi
+uvicorn[standard]
+pydantic[email]
+pydantic-settings
+
+# Database & ORM
+sqlalchemy>=2.0
+alembic
+
+# Auth
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt==4.0.1   # pinned: passlib 1.7.4 is incompatible with bcrypt>=4.1 (upstream bug)
+
+# HTTP / Async
+httpx
+python-multipart
+
+# Scheduling
+apscheduler
+
+# Caching
+diskcache
+
+# Data & ML
+pandas
+numpy
+pyarrow
+yfinance
+pandas-datareader
+scipy
+
+# ML Models
+lightgbm
+xgboost
+catboost
+scikit-learn
+shap
+mlflow
+joblib
+
+# NLP / Sentiment
+textblob
+vaderSentiment
+
+# Logging & Monitoring
+python-json-logger
+prometheus-fastapi-instrumentator
+psutil
+
+# Utilities
+python-dotenv

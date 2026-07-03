@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap');
+
+/* ── CSS variables ─────────────────────────────────────────────────────────── */
+:root {
+  --brand-green: #2A7A6F;
+  --brand-green-light: #3A9E8F;
+  --brand-red: #B5451B;
+  --brand-red-light: #D4622E;
+
+  /* Backgrounds */
+  --bg-primary: #F4F6F8;
+  --bg-secondary: #EAECEF;
+  --bg-card: #FFFFFF;
+  --border: #D1D5DB;
+
+  /* Text */
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6B7280;
+
+  --shadow: rgba(0,0,0,0.08);
+
+  /* Semantic badge colours — light */
+  --bull-bg: #DCFCE7;
+  --bull-fg: #14532D;
+  --bull-border: #86EFAC;
+  --bear-bg: #FEE2E2;
+  --bear-fg: #7F1D1D;
+  --bear-border: #FCA5A5;
+  --neutral-bg: #F3F4F6;
+  --neutral-fg: #1F2937;
+  --neutral-border: #D1D5DB;
+}
+
+.dark {
+  --bg-primary: #0F1117;
+  --bg-secondary: #1A1D27;
+  --bg-card: #1E2130;
+  --border: #374151;
+
+  --text-primary: #F9FAFB;
+  --text-secondary: #D1D5DB;
+  --text-muted: #9CA3AF;
+
+  --shadow: rgba(0,0,0,0.4);
+
+  --bull-bg: rgba(20,83,45,0.35);
+  --bull-fg: #86EFAC;
+  --bull-border: rgba(134,239,172,0.3);
+  --bear-bg: rgba(127,29,29,0.35);
+  --bear-fg: #FCA5A5;
+  --bear-border: rgba(252,165,165,0.3);
+  --neutral-bg: rgba(55,65,81,0.4);
+  --neutral-fg: #E5E7EB;
+  --neutral-border: rgba(209,213,219,0.2);
+}
+
+/* ── Reset & base ──────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 17px; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.text-xs  { font-size: 0.8rem !important;   line-height: 1.5 !important; }
+.text-sm  { font-size: 0.925rem !important;  line-height: 1.55 !important; }
+.text-base{ font-size: 1.05rem !important;   line-height: 1.6 !important; }
+.text-lg  { font-size: 1.175rem !important;  line-height: 1.5 !important; }
+.text-xl  { font-size: 1.3rem !important;    line-height: 1.4 !important; }
+.text-2xl { font-size: 1.6rem !important;    line-height: 1.35 !important; }
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2A7A6F; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3A9E8F; }
+
+/* ── Ticker ────────────────────────────────────────────────────────────────── */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-wrap { overflow: hidden; }
+.ticker-inner { display: flex; animation: ticker-scroll 60s linear infinite; }
+.ticker-inner:hover { animation-play-state: paused; }
+
+/* Top ticker bar (TickerBar.jsx) — content is duplicated once by the
+   component, so -50% is exactly one full lap, then it loops seamlessly.
+   180s = a slow, continuous, unhurried crawl (prices themselves still
+   update live/instantly via websocket, independent of scroll speed). */
+.animate-marquee {
+  width: max-content;
+  animation: ticker-scroll 180s linear infinite;
+  will-change: transform;
+}
+.animate-marquee:hover { animation-play-state: paused; }
+
+/* ── Card ──────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: all 0.2s ease;
+}
+.card:hover { box-shadow: 0 6px 20px var(--shadow); }
+
+/* ── Semantic badges ──────────────────────────────────────────────────────── */
+.badge-bull {
+  background: var(--bull-bg);
+  color: var(--bull-fg);
+  border: 1px solid var(--bull-border);
+}
+.badge-bear {
+  background: var(--bear-bg);
+  color: var(--bear-fg);
+  border: 1px solid var(--bear-border);
+}
+.badge-neutral {
+  background: var(--neutral-bg);
+  color: var(--neutral-fg);
+  border: 1px solid var(--neutral-border);
+}
+
+/* ── Theme-aware status badges ────────────────────────────────────────────── */
+.status-bg-healthy  { background: var(--bull-bg);               color: var(--bull-fg); }
+.status-bg-degraded { background: rgba(245,158,11,0.15);         color: #92400E; }
+.status-bg-error    { background: var(--bear-bg);               color: var(--bear-fg); }
+.status-bg-offline  { background: var(--neutral-bg);            color: var(--neutral-fg); }
+.dark .status-bg-degraded { color: #FCD34D; }
+
+/* ── Direction icon boxes ─────────────────────────────────────────────────── */
+.dir-box-bull    { background: var(--bull-bg); }
+.dir-box-bear    { background: var(--bear-bg); }
+.dir-box-neutral { background: var(--neutral-bg); }
+
+/* ── Live pulse dot ────────────────────────────────────────────────────────── */
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #2A7A6F;
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0   rgba(42,122,111,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(42,122,111,0); }
+  100% { box-shadow: 0 0 0 0   rgba(42,122,111,0); }
+}
+
+/* ── Live badge ────────────────────────────────────────────────────────────── */
+.live-badge {
+  background: var(--bull-bg);
+  color: var(--bull-fg);
+  border: 1px solid var(--bull-border);
+  padding: 1px 7px;
+  border-radius: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* ── Number font ───────────────────────────────────────────────────────────── */
+.num { font-family: 'JetBrains Mono', monospace; }
+
+/* ── Skeleton ──────────────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--border) 25%, var(--bg-secondary) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Fade-in ───────────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fadeIn 0.3s ease; }
+
+/* ── Reasoning panel ───────────────────────────────────────────────────────── */
+.reasoning-panel {
+  background: linear-gradient(135deg, rgba(42,122,111,0.07), rgba(74,124,142,0.07));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+/* ── High-conf alert badge ─────────────────────────────────────────────────── */
+.badge-high-conf {
+  background: rgba(245,158,11,0.15);
+  color: #92400E;
+  border: 1px solid rgba(245,158,11,0.4);
+}
+.dark .badge-high-conf {
+  background: rgba(245,158,11,0.2);
+  color: #FCD34D;
+  border-color: rgba(245,158,11,0.35);
+}
+
+/* ── Chat bubbles ──────────────────────────────────────────────────────────── */
+.chat-avatar-ai   { background: var(--bull-bg); }
+.chat-avatar-user { background: rgba(59,130,246,0.15); }
+.dark .chat-avatar-user { background: rgba(59,130,246,0.25); }

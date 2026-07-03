@@ -1,0 +1,76 @@
+"""
+File path: backend/modules/auth/schemas.py
+Purpose: Pydantic request/response schemas for auth endpoints.
+
+SPEC Reference: Section 16.2 (Auth API Contract)
+"""
+
+from datetime import datetime
+from pydantic import BaseModel, EmailStr, field_validator
+
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+
+class TokenResponse(BaseModel):
+    access_token:  str
+    refresh_token: str
+    token_type:    str = "bearer"
+    expires_in:    int      # seconds until access token expires
+    user:          "UserOut"
+
+
+class RefreshRequest(BaseModel):
+    refresh_token: str
+
+
+class UserOut(BaseModel):
+    id:         str
+    username:   str
+    email:      str
+    role:       str
+    is_active:  bool
+    last_login: datetime | None
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class UserCreateRequest(BaseModel):
+    username: str
+    email:    EmailStr
+    password: str
+    role:     str = "user"
+
+    @field_validator("password")
+    @classmethod
+    def password_strength(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters.")
+        return v
+
+    @field_validator("role")
+    @classmethod
+    def valid_role(cls, v: str) -> str:
+        allowed = {"admin", "user"}
+        if v not in allowed:
+            raise ValueError(f"Role must be one of: {allowed}")
+        return v
+
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+    @field_validator("new_password")
+    @classmethod
+    def password_strength(cls, v: str) -> str:
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters.")
+        return v
+
+
+TokenResponse.model_rebuild()
